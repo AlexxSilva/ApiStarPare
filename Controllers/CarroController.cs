@@ -18,7 +18,7 @@ namespace ApiStarPare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CriarVeiculo([FromBody] Carro carro)
+        public async Task<IActionResult> CriarCarro([FromBody] Carro carro)
         {
             if (carro == null)
             {
@@ -28,12 +28,12 @@ namespace ApiStarPare.Controllers
             {
                 _context.Carros.Add(carro);
                 await _context.SaveChangesAsync();
-                return (CreatedAtAction(nameof(Carro), carro));
+                return CreatedAtAction(nameof(RecuperarCarroPorId),new { Id = carro.Id }, carro);
             }
 
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> RecuperarCarroPorId(int id)
         { 
             var carro =  await _context.Carros.FirstOrDefaultAsync(c => c.Id == id);
@@ -47,7 +47,7 @@ namespace ApiStarPare.Controllers
             }
         }
 
-        [HttpGet("{Placa}")]
+        [HttpGet("placa/{Placa}")]
         public async Task<IActionResult> RecuperarCarroPorPelaPlaca(string placa)
         {
             var carro = await _context.Carros.FirstOrDefaultAsync(c => c.Placa == placa);

@@ -44,7 +44,7 @@ namespace ApiStarPare.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Carros");
+                    b.ToTable("Carros", (string)null);
                 });
 
             modelBuilder.Entity("ApiStarPare.Models.Estacionamento", b =>
@@ -67,7 +67,7 @@ namespace ApiStarPare.Migrations
 
                     b.HasIndex("CarroId");
 
-                    b.ToTable("Estacionamentos");
+                    b.ToTable("Estacionamentos", (string)null);
                 });
 
             modelBuilder.Entity("ApiStarPare.Models.Estacionamento", b =>

@@ -24,7 +24,7 @@ namespace ApiStarPare.Controllers
             if (carro == null)
                 return NotFound("Veículo não encontrado!");
 
-            var estacionamento = new Estacionamento
+            var estacionamento = new Estacionamento 
             {
                 DataEntrada = DateTime.Now,
                 CarroEstacionado = carro,
@@ -40,7 +40,7 @@ namespace ApiStarPare.Controllers
             );
         }
 
-        [HttpPost("registrar-saida/{CarroId}")]
+        [HttpPut("registrar-saida/{CarroId}")]
         public async Task<IActionResult> RegistrarSaida(int CarroId)
         {
             var estacionamento = await _context.Estacionamentos
@@ -57,7 +57,7 @@ namespace ApiStarPare.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("estacionados")]
         public async Task<IActionResult> ListarEstacionados()
         {
             var estacionamentos = await _context.Estacionamentos.Where(
@@ -76,7 +76,7 @@ namespace ApiStarPare.Controllers
                 e => e.DataSaida != null).Include(e => e.CarroEstacionado).ToListAsync();
 
             if (estacionamentos.Count == 0)
-                return NotFound("Nenhum veículo estacionado no momento.");
+                return NotFound("Nenhum veículo encontrado.");
 
             return Ok(estacionamentos);
         }
