@@ -19,6 +19,7 @@ namespace ApiStarPare.Models
 
         [Required(ErrorMessage = "A placa do carro é obrigatória")]
         [PlacaVeiculo]
+        [MaxLength(8, ErrorMessage = "Placa com a quantidade de caracteres incorreta")]
         public string? Placa { get; set; }
 
         [Required(ErrorMessage = "O total de passageiros é obrigatório")]
