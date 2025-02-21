@@ -1,4 +1,5 @@
 ﻿using ApiStarPare.Data;
+using ApiStarPare.Dto;
 using ApiStarPare.Models;
 using ApiStarPare.Repositorys;
 using Microsoft.AspNetCore.Http;
@@ -26,21 +27,28 @@ namespace ApiStarPare.Controllers
         /// <response code="201">Caso inserção seja feita com sucesso</response>
 
         [HttpPost]
-        public async Task<IActionResult> CriarCarro([FromBody] Carro carro)
+        public async Task<IActionResult> CriarCarro([FromBody] CarroDTO carroDto)
         {
-            if (carro == null)
+            if (carroDto == null)
             {
                 return NotFound();
             }
             else
             {
+                var carro = new Carro
+                {
+                    Marca = carroDto.Marca,
+                    Modelo = carroDto.Modelo,
+                    Placa = carroDto.Placa,
+                    TotalPassageiros = carroDto.TotalPassageiros
+                };
+
+
                 await _repository.AddAsync(carro);
                 return CreatedAtAction(nameof(RecuperarCarroPorId),new { Id = carro.Id }, carro);
             }
 
         }
-
-
 
 
         /// <summary>
@@ -58,10 +66,16 @@ namespace ApiStarPare.Controllers
             {
                 return NotFound();
             }
-            else
+
+            var carroDto = new CarroDTO
             {
-                return Ok(carro); 
-            }
+                Marca = carro.Marca,
+                Modelo = carro.Modelo,
+                Placa = carro.Placa,
+                TotalPassageiros = carro.TotalPassageiros
+            };
+
+            return Ok(carroDto);
         }
 
 
@@ -80,10 +94,15 @@ namespace ApiStarPare.Controllers
             {
                 return NotFound();
             }
-            else
+            var carroDto = new CarroDTO
             {
-                return Ok(carro);
-            }
+                Marca = carro.Marca,
+                Modelo = carro.Modelo,
+                Placa = carro.Placa,
+                TotalPassageiros = carro.TotalPassageiros
+            };
+
+            return Ok(carroDto);
         }
 
     }

@@ -31,6 +31,8 @@ else
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MySqlConnection"))));
 }
 
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());    
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 

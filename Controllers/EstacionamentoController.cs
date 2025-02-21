@@ -1,4 +1,5 @@
 ﻿using ApiStarPare.Data;
+using ApiStarPare.Dto;
 using ApiStarPare.Models;
 using ApiStarPare.Repositorys;
 using Microsoft.AspNetCore.Http;
@@ -45,10 +46,22 @@ namespace ApiStarPare.Controllers
 
             await _repositoryEstacionamento.AddAsync(estacionamento);
 
+
+            var estacionamentoDTO = new EstacionamentoDTO
+            {
+                DataEntrada = estacionamento.DataEntrada,
+                Marca = carro.Marca,
+                Modelo = carro.Modelo,
+                Placa = carro.Placa
+            };
+
             return Ok(new { 
                 Message = "Entrada registrada!", 
                 DataEntrada = estacionamento.DataEntrada }
             );
+
+            //return CreatedAtAction(nameof(ListarEstacionados), new
+            //{ id = estacionamentoDTO.Id }, estacionamentoDTO);
         }
 
 
@@ -92,7 +105,15 @@ namespace ApiStarPare.Controllers
             if (!estacionamentos.Any())
                 return NotFound("Nenhum veículo estacionado no momento.");
 
-            return Ok(estacionamentos);
+            var estacionadosDTO = estacionamentos.Select(e => new EstacionamentoDTO
+            {
+                DataEntrada = e.DataEntrada,
+                Marca = e.CarroEstacionado.Marca,
+                Modelo = e.CarroEstacionado.Modelo,
+                Placa = e.CarroEstacionado.Placa
+            });
+
+            return Ok(estacionadosDTO);
         }
 
 
@@ -110,7 +131,16 @@ namespace ApiStarPare.Controllers
             if (!estacionamentos.Any())
                 return NotFound("Nenhum veículo encontrado.");
 
-            return Ok(estacionamentos);
+            var historicoDTO = estacionamentos.Select(e => new EstacionamentoDTO
+            {
+                DataEntrada = e.DataEntrada,
+                DataSaida = e.DataSaida,
+                Marca = e.CarroEstacionado.Marca,
+                Modelo = e.CarroEstacionado.Modelo,
+                Placa = e.CarroEstacionado.Placa
+            });
+
+            return Ok(historicoDTO);
         }
     }
 }
